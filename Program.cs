@@ -1,55 +1,57 @@
-﻿using System;
-using System.Data;
-using System.Diagnostics;//used for Stopwatch class
+﻿// using System;
+// using System.Data;
+// using System.Diagnostics;//used for Stopwatch class
 
-using MySql.Data;
-using MySql.Data.MySqlClient;
+// using MySql.Data;
+// using MySql.Data.MySqlClient;
 
-using MySqlAccess;
-using BusinessLogic;
-using System.Collections;
+// using MySqlAccess;
+// using BusinessLogic;
+// using System.Collections;
 
-// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-Console.WriteLine("The current time is " + DateTime.Now);
+// // See https://aka.ms/new-console-template for more information
+// Console.WriteLine("Hello, World!");
+// Console.WriteLine("The current time is " + DateTime.Now);
 
-Stopwatch stopwatch = new Stopwatch();
+// Stopwatch stopwatch = new Stopwatch();
 
-int userInput = 0;
-do
-{
-    Console.WriteLine("_____________________");
-    Console.WriteLine("Please chose a task:");
-    Console.WriteLine("1 - create empty tables");
-    Console.WriteLine("2 - fill tables with data");
-    Console.WriteLine("3 - print values of a table");
-    Console.WriteLine("");
-    Console.WriteLine("(-1) - for exit");
+// int userInput = 0;
+// do
+// {
+//     Console.WriteLine("_____________________");
+//     Console.WriteLine("Welcome to IceCream Shop :");
+//     Console.WriteLine("01 - Start new Reservation");
+//     Console.WriteLine("02 - Go Out From The Shop");
+//     Console.WriteLine("03 - Settings and Bills");
+//     Console.WriteLine("");
+//     Console.WriteLine("(-1) - for exit");
 
-    userInput = Int32.Parse(Console.ReadLine());
+//     userInput = Int32.Parse(Console.ReadLine());
 
-    switch (userInput)
-    {
-        case 1:
-            BusinessLogic.Logic.createTables();
-            break;
-        case 2:
-            Console.WriteLine("fill should be called");
-            BusinessLogic.Logic.fillTables(100);
-            break;
-        case 3:
-            Console.WriteLine("Enter table name (Owners/Tasks/Vehicles)");
-            string tableName = Console.ReadLine();
-            ArrayList results = BusinessLogic.Logic.getTableData(tableName);
-            foreach (Object obj in results)
-                Console.WriteLine("   {0}", obj);
-            Console.WriteLine();
-            break;
-    }
+//     switch (userInput)
+//     {
+//         case 01:
+//             BusinessLogic.Logic.createTables();
+//             Console.WriteLine("Choose Flavour :");
+//             Console.WriteLine("1 - Vanilla");
+//             break;
+//         case 02:
+//             Console.WriteLine("fill should be called");
+//             BusinessLogic.Logic.fillTables(100);
+//             break;
+//         case 03:
+//             Console.WriteLine("Enter table name (Owners/Tasks/Vehicles)");
+//             string tableName = Console.ReadLine();
+//             ArrayList results = BusinessLogic.Logic.getTableData(tableName);
+//             foreach (Object obj in results)
+//                 Console.WriteLine("   {0}", obj);
+//             Console.WriteLine();
+//             break;
+//     }
 
-} while (userInput != -1);
+// } while (userInput != -1);
 
-Console.WriteLine("Thank you for your time");
+// Console.WriteLine("Thank you for your time");
 // Console.ReadKey();
 
 /*
