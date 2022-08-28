@@ -40,5 +40,16 @@ class Sales{
 
 }
 
+class CostumerReservation{
+    int id_Ingredient;
+    int id_Sales;
+    public CostumerReservation(int id_Ingredient, int id_Sales)
+    {
+        this.id_Ingredient = id_Ingredient;
+        this.id_Sales = id_Sales;
+    }
+    public int getid_Ingredient() { return id_Ingredient; }
+    public int getid_Sales() { return id_Sales; }
 
+}
 }

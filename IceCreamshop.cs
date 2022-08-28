@@ -9,6 +9,7 @@ Stopwatch stopwatch = new Stopwatch();
 int ChooseDataBase = 0;
 int CustomerFirstChoice = 0;
 int ChooseCone = 0;
+int chooseFlavor = 0;
 do
 {
     Console.WriteLine("_____________________");
@@ -19,8 +20,6 @@ do
     ChooseDataBase = Int32.Parse(Console.ReadLine());
     Console.WriteLine("");
     Console.WriteLine("(-1) - for exit");
-
-    //ChooseDataBase = Int32.Parse(Console.ReadLine());
 
     switch (ChooseDataBase)
     {
@@ -62,7 +61,9 @@ do
     {
         //new reservation
         case 1:
-            Business_Logic.Business_Logic.fillTables(16);
+            Business_Logic.Business_Logic.FillIngreadiantsTables(1);
+            Business_Logic.Business_Logic.FillSalesTable();
+            Business_Logic.Business_Logic.FillCustomerResevationTable();
             Console.WriteLine("How Do you want to eat your IceCream? :");
             Console.WriteLine("1- Regular cone");
             Console.WriteLine("2- Speacial cone");
@@ -77,8 +78,13 @@ do
     }
     switch (ChooseCone)
     {
-        case 1: //regular cone
+        case 1: //regular con
+            Console.WriteLine("You choose at most 3 flavors");
+            //////////////NEED TO UPDATE IN THIS ORDER REGULAR CONE//////////////////////////////
+            break;
         case 2: //speacial cone
+            Console.WriteLine("You choose at most 3 flavors");
+            break;  
         case 3: //BOX 
         default:
             break;

@@ -43,7 +43,7 @@ namespace SqlServer
                 // create task
                 sql = "CREATE TABLE `IceCreamShop`.`Sales` (" +
                     "`id_Sales` INT NOT NULL AUTO_INCREMENT, " +
-                    "`OrderDate` DATE NOT NULL," +
+                    "`OrderDate` VARCHAR(45) NOT NULL," +
                     "`Price` INT NULL," +
                     "PRIMARY KEY (`id_Sales`));";
 
@@ -52,10 +52,14 @@ namespace SqlServer
 
                 // create owners
                 sql = "CREATE TABLE `IceCreamShop`.`CostumerReservation` (" +
+                "`id_CostumerReservation` INT NOT NULL AUTO_INCREMENT, " +
                     "`id_Ingredient` INT NOT NULL, " +
                     "`id_Sales` INT NOT NULL, " +
-                    " CONSTRAINT `fk_Ingredient_id_Ingredient` FOREIGN KEY (`id_Ingredient`) REFERENCES `IceCreamShop`.`Ingredient` (`id_Ingredient`)"+
-                    "CONSTRAINT `fk_Sales_id_Sales` FOREIGN KEY (`id_Sales`) REFERENCES `IceCreamShop`.`Sales` (`id_Sales`));";
+                    "PRIMARY KEY (`id_CostumerReservation`)," +
+                    //  "FOREIGN KEY (id_Ingredient) REFERENCES Ingredient(id_Ingredient), " +
+                    //  "FOREIGN KEY (id_Sales) REFERENCES Sales(id_Sales));";
+                    " CONSTRAINT `fk_Ingredient_id_Ingredient` FOREIGN KEY (`id_Ingredient`) REFERENCES `IceCreamShop`.`Ingredient` (`id_Ingredient`), " +
+                    " CONSTRAINT `fk_Sales_id_Sales` FOREIGN KEY (`id_Sales`) REFERENCES `IceCreamShop`.`Sales` (`id_Sales`));";
 
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
@@ -67,7 +71,7 @@ namespace SqlServer
             }
 
         }
-        public static void insertIntoIngredients(Object obj){
+        public static void insertIntoTable(Object obj){
             try
             {
                 MySqlConnection conn = new MySqlConnection(connStr);
@@ -82,6 +86,18 @@ namespace SqlServer
                     sql = "INSERT INTO `IceCreamShop`.`Ingredient` (`Product_name`, `Product_price`, `Number_of_balls`, `Take_Not`)" + 
                     "VALUES ('" + newIngredients.getProduct_name() + "', '" + newIngredients.getProduct_price() + "', '" + newIngredients.getNumber_of_balls() + "', '" + newIngredients.getTake_Not() + "');";
                     
+                }
+                if (obj is Sales)
+                {
+                    Sales newSales = (Sales)obj;
+                    sql = "INSERT INTO `IceCreamShop`.`Sales` (`OrderDate`, `Price`)" +
+                    "VALUES ('" + newSales.getOrderDate() + "', '" + newSales.getPrice() + "');";
+                }
+                if (obj is CostumerReservation)
+                {
+                    CostumerReservation newCostumerReservation = (CostumerReservation)obj;
+                    sql = "INSERT INTO `IceCreamShop`.`CostumerReservation` (`id_Ingredient`, `id_Sales`)" +
+                    "VALUES ('" + newCostumerReservation.getid_Ingredient() + "', '" + newCostumerReservation.getid_Sales() + "');";
                 }
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
