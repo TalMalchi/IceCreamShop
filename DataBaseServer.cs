@@ -1,13 +1,12 @@
-using System.Collections;
-using MySql.Data;
 using MySql.Data.MySqlClient;
-using Icecreamshop;
 
-namespace SqlServer{
+namespace SqlServer
+{
 
-class SqlServer{
-    static string connStr = "server=localhost;user=root;port=3306;password=root";
-    public static void createTables()
+    class SqlServer
+    {
+        static string connStr = "server=localhost;user=root;port=3306;password=malchital1";
+        public static void createTables()
         {
 
             try
@@ -22,7 +21,7 @@ class SqlServer{
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
 
-                
+
                 sql = "CREATE DATABASE IceCreamShop;";
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
@@ -42,7 +41,7 @@ class SqlServer{
                 // create owners
                 sql = "CREATE TABLE `IceCreamShop`.`CostumerReservation` (" +
                     "`id_Ingredient` INT NULL, " +
-                    "`id_Sales` INT NULL) " ;
+                    "`id_Sales` INT NULL) ";
 
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
@@ -50,7 +49,7 @@ class SqlServer{
                 // create task
                 sql = "CREATE TABLE `IceCreamShop`.`Sales` (" +
                     "`id_Sales` INT NOT NULL AUTO_INCREMENT, " +
-                    "`OrderDate` VARCHAR(45) NOT NULL," +
+                    "`OrderDate` DATE NOT NULL," +
                     "`Price` INT NULL," +
                     "PRIMARY KEY (`id_Sales`));";
 
@@ -62,9 +61,9 @@ class SqlServer{
             {
                 Console.WriteLine(ex.ToString());
             }
-    
-}
+
+        }
 
 
-}
+    }
 }
