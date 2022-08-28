@@ -62,6 +62,7 @@ do
     {
         //new reservation
         case 1:
+            Business_Logic.Business_Logic.fillTables(16);
             Console.WriteLine("How Do you want to eat your IceCream? :");
             Console.WriteLine("1- Regular cone");
             Console.WriteLine("2- Speacial cone");

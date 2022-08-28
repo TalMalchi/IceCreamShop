@@ -7,9 +7,9 @@ class Ingredients
     string Product_name;
     int Product_price;
     int Number_of_balls;
-    bool Take_Not;
+    int Take_Not;
 
-    public Ingredients(string Product_name, int Product_price, int Number_of_balls, bool Take_Not)
+    public Ingredients(string Product_name, int Product_price, int Number_of_balls, int Take_Not)
     {
         this.Product_name = Product_name;
         this.Product_price = Product_price;
@@ -19,7 +19,7 @@ class Ingredients
     public string getProduct_name() { return Product_name; }
     public int getProduct_price() { return Product_price; }
     public int getNumber_of_balls() { return Number_of_balls; }
-    public bool getTake_Not() { return Take_Not; }
+    public int getTake_Not() { return Take_Not; }
     public override string ToString()
     {
         return base.ToString() + ": " + Product_name + " , " + Product_price + " , " + Number_of_balls + " , " + Take_Not;
