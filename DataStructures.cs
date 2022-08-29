@@ -41,8 +41,8 @@ class Sales{
 }
 
 class CostumerReservation{
-    int id_Ingredient;
-    int id_Sales;
+    int id_Ingredient=0;
+    int id_Sales=0;
     public CostumerReservation(int id_Ingredient, int id_Sales)
     {
         this.id_Ingredient = id_Ingredient;

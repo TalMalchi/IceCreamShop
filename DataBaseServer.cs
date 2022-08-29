@@ -55,15 +55,16 @@ namespace SqlServer
                 "`id_CostumerReservation` INT NOT NULL AUTO_INCREMENT, " +
                     "`id_Ingredient` INT NOT NULL, " +
                     "`id_Sales` INT NOT NULL, " +
-                    "PRIMARY KEY (`id_CostumerReservation`)," +
-                    //  "FOREIGN KEY (id_Ingredient) REFERENCES Ingredient(id_Ingredient), " +
-                    //  "FOREIGN KEY (id_Sales) REFERENCES Sales(id_Sales));";
-                    " CONSTRAINT `fk_Ingredient_id_Ingredient` FOREIGN KEY (`id_Ingredient`) REFERENCES `IceCreamShop`.`Ingredient` (`id_Ingredient`), " +
-                    " CONSTRAINT `fk_Sales_id_Sales` FOREIGN KEY (`id_Sales`) REFERENCES `IceCreamShop`.`Sales` (`id_Sales`));";
+                    //"PRIMARY KEY (`id_CostumerReservation`)," +
+                     
+                     "FOREIGN KEY (id_Sales) REFERENCES Sales(id_Sales),"+
+                     "FOREIGN KEY (id_Ingredient) REFERENCES Ingredient(id_Ingredient));";
+                    // " CONSTRAINT `fk_Ingredient_id_Ingredient` FOREIGN KEY (`id_Ingredient`) REFERENCES `IceCreamShop`.`Ingredient` (`id_Ingredient`), " +
+                    // " CONSTRAINT `fk_Sales_id_Sales` FOREIGN KEY (`id_Sales`) REFERENCES `IceCreamShop`.`Sales` (`id_Sales`));";
 
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
-
+                conn.Close();
             }
             catch (Exception ex)
             {
@@ -95,17 +96,21 @@ namespace SqlServer
                 }
                 if (obj is CostumerReservation)
                 {
+                    
                     CostumerReservation newCostumerReservation = (CostumerReservation)obj;
+                    Console.WriteLine(newCostumerReservation.getid_Ingredient());
                     sql = "INSERT INTO `IceCreamShop`.`CostumerReservation` (`id_Ingredient`, `id_Sales`)" +
                     "VALUES ('" + newCostumerReservation.getid_Ingredient() + "', '" + newCostumerReservation.getid_Sales() + "');";
                 }
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
-                conn.Close();
+                
+                //conn.Close();
 
         }
          catch (Exception ex)
             {
+                Console.WriteLine("bkla blabxlablaxba");
                 Console.WriteLine(ex.ToString());
             }
         }
