@@ -55,7 +55,7 @@ namespace SqlServer
                 "`id_CostumerReservation` INT NOT NULL AUTO_INCREMENT, " +
                     "`id_Ingredient` INT NOT NULL, " +
                     "`id_Sales` INT NOT NULL, " +
-                    //"PRIMARY KEY (`id_CostumerReservation`)," +
+                    "PRIMARY KEY (`id_CostumerReservation`)," +
                      
                      "FOREIGN KEY (id_Sales) REFERENCES Sales(id_Sales),"+
                      "FOREIGN KEY (id_Ingredient) REFERENCES Ingredient(id_Ingredient));";
