@@ -13,7 +13,7 @@ namespace Business_Logic{
             
             for( int i = 0; i < num; i++)
             {
-                Console.WriteLine("fill Ingreadiants Tables");
+                //Console.WriteLine("fill Ingreadiants Tables");
                 string i_name= ingredients[i];
                 int i_price = prices[i];
                 int ball_nums = 0;
@@ -29,7 +29,7 @@ namespace Business_Logic{
         public static void FillSalesTable()
         {
             
-                Console.WriteLine("fill Sales Table");
+                //Console.WriteLine("fill Sales Table");
                 string o_date= System.DateTime.Now.ToString("yyyy-MM-dd");
                 int o_price = 0;
                 Sales newSales = new Sales(o_date, o_price);
@@ -44,11 +44,11 @@ namespace Business_Logic{
         public static void FillCustomerResevationTable(int id_Ingredient)
         {
                 Random r = new Random();
-                Console.WriteLine("fill Customers Table");
+                //Console.WriteLine("fill Customers Table");
                 int id_Sales= SqlServer.SqlServer.getMaxIdSales();
                 int id_Ingredient1= id_Ingredient;
-                
-            
+                int[] update_prices= {0,0,2,5,6,6,6,6,6,6,6,6,6,6,2,2,2};
+                int price = update_prices[id_Ingredient1];
                 CostumerReservation newCustomers = new CostumerReservation(id_Ingredient1, id_Sales, price);
                 string stam = newCustomers.ToString();
                 Console.WriteLine("---------------------------------------------------");

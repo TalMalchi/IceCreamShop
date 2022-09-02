@@ -5,7 +5,7 @@ namespace SqlServer
 
     class SqlServer
     {
-        static string connStr = "server=localhost;user=root;port=3306;password=root";
+        static string connStr = "server=localhost;user=root;port=3306;password=malchital1";
         public static void createTables()
         {
 
@@ -55,8 +55,7 @@ namespace SqlServer
                     "`id_Ingredient` INT NOT NULL, " +
                     "`id_Sales` INT NOT NULL, " +
                     "`ingredient_price` INT NOT NULL);";
-                    // "PRIMARY KEY (`id_CostumerReservation`)," +
-                     
+                    // "PRIMARY KEY (`id_CostumerReservation`)," +     
                     //  "FOREIGN KEY (id_Sales) REFERENCES Sales(id_Sales),"+
                     //  "FOREIGN KEY (id_Ingredient) REFERENCES Ingredient(id_Ingredient));";
                     // " CONSTRAINT `fk_Ingredient_id_Ingredient` FOREIGN KEY (`id_Ingredient`) REFERENCES `IceCreamShop`.`Ingredient` (`id_Ingredient`), " +
@@ -123,9 +122,10 @@ namespace SqlServer
                 {
                     Console.WriteLine("inserting into CostumerReservation");
                     CostumerReservation newCostumerReservation = (CostumerReservation)obj;
-                    Console.WriteLine(newCostumerReservation.getid_Ingredient()+ "!!!!!!!!");
-                    Console.WriteLine(newCostumerReservation.getid_Sales()+ "*********");
-                    Console.WriteLine(newCostumerReservation.getIngredient_price()+ "#########");
+                    //print id_Ingredient and id_Sales
+                    Console.WriteLine(newCostumerReservation.getid_Ingredient()+ "ID INGREDIENTS");
+                    Console.WriteLine(newCostumerReservation.getid_Sales()+ "ID SALE ");
+                    Console.WriteLine(newCostumerReservation.getIngredient_price()+ "INGREDIENT PRICE");
                     sql = "INSERT INTO `IceCreamShop`.`CostumerReservation` (`id_Ingredient`, `id_Sales`, `ingredient_price`)" +
                     "VALUES ('" + newCostumerReservation.getid_Ingredient() + "', '" + newCostumerReservation.getid_Sales() + "', '"+ newCostumerReservation.getIngredient_price() + "');";
                 }
@@ -138,6 +138,23 @@ namespace SqlServer
          catch (Exception ex)
             {
                 Console.WriteLine("bkla blabxlablaxba");
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public static void updateSaleSum(){
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                string sql = "UPDATE `IceCreamShop`.`Sales` SET `Price` = (SELECT SUM(ingredient_price) FROM `IceCreamShop`.`CostumerReservation` WHERE id_Sales = Sales.id_Sales);";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.ToString());
             }
         }
