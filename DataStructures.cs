@@ -7,22 +7,21 @@ class Ingredients
     string Product_name;
     int Product_price;
     int Number_of_balls;
-    int Take_Not;
+    
 
-    public Ingredients(string Product_name, int Product_price, int Number_of_balls, int Take_Not)
+    public Ingredients(string Product_name, int Product_price, int Number_of_balls)
     {
         this.Product_name = Product_name;
         this.Product_price = Product_price;
         this.Number_of_balls = Number_of_balls;
-        this.Take_Not = Take_Not;
+    
     }
     public string getProduct_name() { return Product_name; }
     public int getProduct_price() { return Product_price; }
     public int getNumber_of_balls() { return Number_of_balls; }
-    public int getTake_Not() { return Take_Not; }
     public override string ToString()
     {
-        return base.ToString() + ": " + Product_name + " , " + Product_price + " , " + Number_of_balls + " , " + Take_Not;
+        return base.ToString() + ": " + Product_name + " , " + Product_price + " , " + Number_of_balls ;
     }
 }
 
@@ -30,6 +29,7 @@ class Sales{
     string OrderDate;
     int Price;
 
+    //int id_Sales
     public Sales(string OrderDate, int price)
     {
         this.OrderDate = OrderDate;
@@ -41,15 +41,20 @@ class Sales{
 }
 
 class CostumerReservation{
-    int id_Ingredient=0;
-    int id_Sales=0;
-    public CostumerReservation(int id_Ingredient, int id_Sales)
+    int id_Ingredient;
+    int id_Sales;
+    int ingredient_price=0;
+    public CostumerReservation(int id_Ingredient, int id_Sales, int ingredient_price)
     {
         this.id_Ingredient = id_Ingredient;
         this.id_Sales = id_Sales;
+        this.ingredient_price = ingredient_price;
     }
     public int getid_Ingredient() { return id_Ingredient; }
     public int getid_Sales() { return id_Sales; }
+    public int getIngredient_price() { return ingredient_price; }
+
+    string toString() { return id_Ingredient + " , " + id_Sales + " , " + ingredient_price; }
 
 }
 }

@@ -17,9 +17,9 @@ namespace Business_Logic{
                 string i_name= ingredients[i];
                 int i_price = prices[i];
                 int ball_nums = 0;
-                int take_not = 0;
+                
                 //insert into ingredients table
-                Ingredients newIngredient = new Ingredients(i_name, i_price, ball_nums, take_not);
+                Ingredients newIngredient = new Ingredients(i_name, i_price, ball_nums);
                 SqlServer.SqlServer.insertIntoTable(newIngredient);
 
 
@@ -36,13 +36,22 @@ namespace Business_Logic{
                 SqlServer.SqlServer.insertIntoTable(newSales);
             
         }
-        public static void FillCustomerResevationTable()
+
+       
+
+        // We need to take the max id sale in our sale table / or the saven one, and according to 
+        // the ingredients table, we need to insert the right ingredients to the costumers table
+        public static void FillCustomerResevationTable(int id_Ingredient)
         {
                 Random r = new Random();
                 Console.WriteLine("fill Customers Table");
-                int id_Sales= 0;
-                int id_Ingredient= 0;
-                CostumerReservation newCustomers = new CostumerReservation(id_Ingredient, id_Sales);
+                int id_Sales= SqlServer.SqlServer.getMaxIdSales();
+                int id_Ingredient1= id_Ingredient;
+                
+            
+                CostumerReservation newCustomers = new CostumerReservation(id_Ingredient1, id_Sales, price);
+                string stam = newCustomers.ToString();
+                Console.WriteLine("---------------------------------------------------");
                 SqlServer.SqlServer.insertIntoTable(newCustomers);
             
         }

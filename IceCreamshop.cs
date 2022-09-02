@@ -10,7 +10,7 @@ int ChooseDataBase = 0;
 int CustomerFirstChoice = 0;
 int ChooseCone = 0;
 int chooseFlavor = 0;
-do
+int chooseNumberOfBalls = 0;
 {
     Console.WriteLine("_____________________");
     Console.WriteLine("Welcome to IceCream Shop :");
@@ -61,16 +61,16 @@ do
     {
         //new reservation
         case 1:
-            Business_Logic.Business_Logic.FillIngreadiantsTables(1);
+            Business_Logic.Business_Logic.FillIngreadiantsTables(16);
             Business_Logic.Business_Logic.FillSalesTable();
-            Business_Logic.Business_Logic.FillCustomerResevationTable();
-            Console.WriteLine("How Do you want to eat your IceCream? :");
+            //Business_Logic.Business_Logic.FillCustomerResevationTable();
+            Console.WriteLine("How many balls would you like to eat? choose number greater than 1 :");
+            chooseNumberOfBalls = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("How do you want to eat your icecream? :");
             Console.WriteLine("1- Regular cone");
             Console.WriteLine("2- Speacial cone");
             Console.WriteLine("3- Box");
             ChooseCone = Int32.Parse(Console.ReadLine());
-        //case 2 : go out from the order
-        //case3 : settings and bills
         defualt:
             break;
 
@@ -79,13 +79,26 @@ do
     switch (ChooseCone)
     {
         case 1: //regular con
-            Console.WriteLine("You choose at most 3 flavors");
-            //////////////NEED TO UPDATE IN THIS ORDER REGULAR CONE//////////////////////////////
+            while(chooseNumberOfBalls > 3) 
+            {
+            throw new Exception("You can't choose more than 3 balls");
+            Console.WriteLine("Please choose again number of balls: ");
+            chooseNumberOfBalls = Int32.Parse(Console.ReadLine());
+            }
+            Business_Logic.Business_Logic.FillCustomerResevationTable(1);
             break;
         case 2: //speacial cone
-            Console.WriteLine("You choose at most 3 flavors");
+            while(chooseNumberOfBalls > 3) 
+            {
+            throw new Exception("You can't choose more than 3 balls");
+            Console.WriteLine("Please choose again number of balls: ");
+            chooseNumberOfBalls = Int32.Parse(Console.ReadLine());
+            }
+            Business_Logic.Business_Logic.FillCustomerResevationTable(2);
             break;  
         case 3: //BOX 
+             Business_Logic.Business_Logic.FillCustomerResevationTable(3);
+            break;
         default:
             break;
 

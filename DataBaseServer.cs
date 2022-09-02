@@ -5,7 +5,7 @@ namespace SqlServer
 
     class SqlServer
     {
-        static string connStr = "server=localhost;user=root;port=3306;password=malchital1";
+        static string connStr = "server=localhost;user=root;port=3306;password=root";
         public static void createTables()
         {
 
@@ -32,7 +32,6 @@ namespace SqlServer
                     "`Product_name` VARCHAR(45) NULL," +
                     "`Product_price` INT NULL," +
                     "`Number_of_balls` INT NULL," +
-                    "`Take_Not` INT NULL," +
                     "PRIMARY KEY (`id_Ingredient`));";
 
                 cmd = new MySqlCommand(sql, conn);
@@ -52,15 +51,17 @@ namespace SqlServer
 
                 // create owners
                 sql = "CREATE TABLE `IceCreamShop`.`CostumerReservation` (" +
-                "`id_CostumerReservation` INT NOT NULL AUTO_INCREMENT, " +
+                // "`id_CostumerReservation` INT NOT NULL AUTO_INCREMENT, " +
                     "`id_Ingredient` INT NOT NULL, " +
                     "`id_Sales` INT NOT NULL, " +
-                    "PRIMARY KEY (`id_CostumerReservation`)," +
+                    "`ingredient_price` INT NOT NULL);";
+                    // "PRIMARY KEY (`id_CostumerReservation`)," +
                      
-                     "FOREIGN KEY (id_Sales) REFERENCES Sales(id_Sales),"+
-                     "FOREIGN KEY (id_Ingredient) REFERENCES Ingredient(id_Ingredient));";
+                    //  "FOREIGN KEY (id_Sales) REFERENCES Sales(id_Sales),"+
+                    //  "FOREIGN KEY (id_Ingredient) REFERENCES Ingredient(id_Ingredient));";
                     // " CONSTRAINT `fk_Ingredient_id_Ingredient` FOREIGN KEY (`id_Ingredient`) REFERENCES `IceCreamShop`.`Ingredient` (`id_Ingredient`), " +
-                    // " CONSTRAINT `fk_Sales_id_Sales` FOREIGN KEY (`id_Sales`) REFERENCES `IceCreamShop`.`Sales` (`id_Sales`));";
+                    // " CONSTRAINT `fk_Sales_id_Sales` FOREIGN KEY (`id_Sales`) REFERENCES `IceCreamShop`.`Sales` (`id_Sales`),"+
+                    //"PRIMARY KEY (`id_Ingredient`, `id_Sales`));";
 
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
@@ -71,6 +72,30 @@ namespace SqlServer
                 Console.WriteLine(ex.ToString());
             }
 
+        }
+        // function to find the max id from the sales table
+        public static int getMaxIdSales()
+        {
+            int maxId = 0;
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                string sql = "SELECT MAX(id_Sales) FROM iceCreamshop.Sales;";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    maxId = rdr.GetInt32(0);
+                }
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return maxId;
         }
         public static void insertIntoTable(Object obj){
             try
@@ -84,8 +109,8 @@ namespace SqlServer
                 if (obj is Ingredients)
                 {
                     Ingredients newIngredients = (Ingredients)obj;
-                    sql = "INSERT INTO `IceCreamShop`.`Ingredient` (`Product_name`, `Product_price`, `Number_of_balls`, `Take_Not`)" + 
-                    "VALUES ('" + newIngredients.getProduct_name() + "', '" + newIngredients.getProduct_price() + "', '" + newIngredients.getNumber_of_balls() + "', '" + newIngredients.getTake_Not() + "');";
+                    sql = "INSERT INTO `IceCreamShop`.`Ingredient` (`Product_name`, `Product_price`, `Number_of_balls`)" + 
+                    "VALUES ('" + newIngredients.getProduct_name() + "', '" + newIngredients.getProduct_price() + "', '" + newIngredients.getNumber_of_balls() +"');";
                     
                 }
                 if (obj is Sales)
@@ -96,11 +121,13 @@ namespace SqlServer
                 }
                 if (obj is CostumerReservation)
                 {
-                    
+                    Console.WriteLine("inserting into CostumerReservation");
                     CostumerReservation newCostumerReservation = (CostumerReservation)obj;
-                    Console.WriteLine(newCostumerReservation.getid_Ingredient());
-                    sql = "INSERT INTO `IceCreamShop`.`CostumerReservation` (`id_Ingredient`, `id_Sales`)" +
-                    "VALUES ('" + newCostumerReservation.getid_Ingredient() + "', '" + newCostumerReservation.getid_Sales() + "');";
+                    Console.WriteLine(newCostumerReservation.getid_Ingredient()+ "!!!!!!!!");
+                    Console.WriteLine(newCostumerReservation.getid_Sales()+ "*********");
+                    Console.WriteLine(newCostumerReservation.getIngredient_price()+ "#########");
+                    sql = "INSERT INTO `IceCreamShop`.`CostumerReservation` (`id_Ingredient`, `id_Sales`, `ingredient_price`)" +
+                    "VALUES ('" + newCostumerReservation.getid_Ingredient() + "', '" + newCostumerReservation.getid_Sales() + "', '"+ newCostumerReservation.getIngredient_price() + "');";
                 }
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
