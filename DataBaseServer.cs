@@ -5,7 +5,7 @@ namespace SqlServer
 
     class SqlServer
     {
-        static string connStr = "server=localhost;user=root;port=3306;password=malchital1";
+        static string connStr = "server=localhost;user=root;port=3306;password=root";
         public static void createTables()
         {
 
@@ -18,7 +18,7 @@ namespace SqlServer
 
                 string sql = "DROP DATABASE IF EXISTS IceCreamShop;";
 
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
 
 
@@ -26,7 +26,7 @@ namespace SqlServer
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
 
-                // create vehicles
+                
                 sql = "CREATE TABLE `IceCreamShop`.`Ingredient` (" +
                     "`id_Ingredient` INT NOT NULL AUTO_INCREMENT, " +
                     "`Product_name` VARCHAR(45) NULL," +
@@ -39,7 +39,7 @@ namespace SqlServer
 
 
 
-                // create task
+                
                 sql = "CREATE TABLE `IceCreamShop`.`Sales` (" +
                     "`id_Sales` INT NOT NULL AUTO_INCREMENT, " +
                     "`OrderDate` VARCHAR(45) NOT NULL," +
@@ -49,7 +49,7 @@ namespace SqlServer
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
 
-                // create owners
+                
                 sql = "CREATE TABLE `IceCreamShop`.`CostumerReservation` (" +
                 // "`id_CostumerReservation` INT NOT NULL AUTO_INCREMENT, " +
                     "`id_Ingredient` INT NOT NULL, " +

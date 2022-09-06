@@ -4,7 +4,7 @@ using Icecreamshop;
 namespace Business_Logic{
     public class Business_Logic{
         // 0-9 is flavors, 10-12 is toppings, 13-15 is coneType
-        static string [] ingredients = {"Regular Cone", "Special Cone", "Box", "Chocolate", "Vanilla", "Mekufelet", "Mint", "Mocha", "Rum Raisin", "Mint Chocolate Chip", "Peach", "Cocunut", "Gluten Free","Maple Topping", "Chocolate Topping" , "Peanuts Topping"};
+        static string [] ingredients = {"Regular Cone", "Special Cone", "Box", "Chocolate", "Vanilla", "Mekufelet", "Mint", "Mocha", "Rum Raisin", "Mint Chocolate Chip", "Mekupelet", "Cocunut", "Gluten Free","Maple Topping", "Chocolate Topping" , "Peanuts Topping"};
         static int [] prices = {0,2,5,7,7,7,7,7,7,7,7,7,7,2,2,2};
 
         public static void FillIngreadiantsTables(int num)
