@@ -11,17 +11,15 @@ int CustomerFirstChoice = 0;
 int ChooseCone = 0;
 int chooseFlavor = 0;
 int chooseNumberOfBalls = 0;
-int extraBalls=0;
 int chooseTopping = 0;
 int newReser = 0;
+int id = -1;
+int settingAndBills = 0;
 
-/*
- need to add while true loop for each costumer reservation, need to check if the auto increament works
- how so we know that a costumer end his reservation and start a new one?
- in the end the costumer will choose -1 and will "pay" and we will start over the reservation, if
- he wants not to pay (regrats) we will sum 0 to the sales table
-*/
-SqlServer.SqlServer.createTables(); //create new connection to SQL, an create empty tables
+int bills = -1;
+
+
+//SqlServer.SqlServer.createTables(); //create new connection to SQL, an create empty tables
 while(true){
 
 {
@@ -38,16 +36,20 @@ while(true){
     switch (ChooseDataBase)
     {
         case 1:
-            //SqlServer.SqlServer.createTables(); //create new connection to SQL, an create empty tables
             Console.WriteLine("1 - Start new Reservation");
             Console.WriteLine("2 - Go Out From The Shop");
             Console.WriteLine("3 - Settings and Bills");
-            CustomerFirstChoice = Int32.Parse(Console.ReadLine());
-
+            CustomerFirstChoice = Int32.Parse(Console.ReadLine());    
             break;
         case 2:
-            Console.WriteLine("MongoDB System");
-            break;
+            //MongoDB.MongoDB.createTables(); //create new connection to SQL, an create empty tables
+            // Console.WriteLine("1 - Start new Reservation");
+            // Console.WriteLine("2 - Go Out From The Shop");
+            // Console.WriteLine("3 - Settings and Bills");
+            // CustomerFirstChoice = Int32.Parse(Console.ReadLine());    
+            // break;    
+        defualt:
+            break;    
 
     }
     switch (CustomerFirstChoice)
@@ -55,7 +57,7 @@ while(true){
         //new reservation
         case 1:
             Business_Logic.Business_Logic.FillIngreadiantsTables(16);
-            Business_Logic.Business_Logic.FillSalesTable();
+            id = Business_Logic.Business_Logic.FillSalesTable();
             Console.WriteLine("How many balls would you like to eat? (choose number greater than 1 :)");
             chooseNumberOfBalls = Int32.Parse(Console.ReadLine());
             Console.WriteLine("How do you want to eat your icecream? :");
@@ -63,6 +65,60 @@ while(true){
             Console.WriteLine("2- Speacial cone");
             Console.WriteLine("3- Box");      
             ChooseCone = Int32.Parse(Console.ReadLine());
+            break;
+        case 2:
+            break; // TODO: implement in other class  
+
+        case 3:
+                // dont forget to update all the other fields
+                while(settingAndBills != 5){
+                Console.WriteLine("Welcome to Settings and Bills");
+                Console.WriteLine("1 - Costumer Reservation");
+                Console.WriteLine("2 - Day Bills");
+                Console.WriteLine("3 - Uncomplete sales");
+                Console.WriteLine("4 - Most commom ingreadiant and topping");
+                Console.WriteLine("5 - Go out from settings and bills");
+                bills = Int32.Parse(Console.ReadLine());
+                switch(bills)
+                {
+                    case 1:
+                        Console.WriteLine("Please enter you id sale you got in the end of your reservation: ");
+                        int temp = Int32.Parse(Console.ReadLine());
+                        SqlServer.SqlServer.CostumerReservation(temp);
+                        ChooseCone = 0;
+                        newReser=-1;
+                        break;
+
+                    case 2:
+                        Console.WriteLine("The day bills are: ");
+                        SqlServer.SqlServer.DayBills();
+                        ChooseCone = 0;
+                        newReser=-1;
+                        break;
+
+                    case 3: 
+                         Console.WriteLine("The uncomplete sales are: ");
+                         SqlServer.SqlServer.UncompleteSales();
+                         ChooseCone = 0;
+                         newReser=-1;
+                         break; 
+
+                    case 4:
+                        Console.WriteLine("The most commom ingreadiant and topping are: ");
+                        SqlServer.SqlServer.MostCommomIngreadiantAndTopping();
+                        ChooseCone = 0;
+                        newReser=-1;
+                        break;
+                    case 5:
+                        settingAndBills =5; 
+                        newReser=-1;
+                        break;    
+                    default:
+                        break;     
+                }            
+
+                }
+                
         defualt:
             break;
 
@@ -71,6 +127,8 @@ while(true){
     // after each ball let the costumer option to pick topping 
     switch (ChooseCone)
     {
+        case 0:
+            break;
         case 1: //regular con
             while(chooseNumberOfBalls > 3) 
             {
@@ -78,7 +136,7 @@ while(true){
             Console.WriteLine("Please choose again number of balls: ");
             chooseNumberOfBalls = Int32.Parse(Console.ReadLine());
             }
-            Business_Logic.Business_Logic.FillCustomerResevationTable(1);
+            Business_Logic.Business_Logic.FillCustomerResevationTable(1,chooseNumberOfBalls, true);
             for(int i = chooseNumberOfBalls ; i>0 ; i--){
             
             Console.WriteLine("Choose ypur Flavour :");
@@ -93,7 +151,10 @@ while(true){
             Console.WriteLine("12 - Cocunut");
             Console.WriteLine("13 - Gluten Free");
             chooseFlavor= Int32.Parse(Console.ReadLine());
-            Business_Logic.Business_Logic.FillCustomerResevationTable(chooseFlavor);
+            if(chooseNumberOfBalls == 1 ){}
+
+            else{ Business_Logic.Business_Logic.FillCustomerResevationTable(chooseFlavor,chooseNumberOfBalls, false);}
+            
             Console.WriteLine("Which topping do you like to add?");
             Console.WriteLine("14 - Chocolate");
             Console.WriteLine("15 - Maple Syrup");
@@ -103,7 +164,7 @@ while(true){
             switch(chooseTopping){
                 case 14:
                 if(chooseFlavor != 4 && chooseFlavor != 11){
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(14);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(14,chooseNumberOfBalls, false);
                 }
                 else{
                     Console.WriteLine("You can't add chocolate topping to chocolate icecream, Please choose again!");
@@ -112,7 +173,7 @@ while(true){
                     break;
                 case 15:
                      if(chooseFlavor != 5){
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(15);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(15,chooseNumberOfBalls, false);
                 }
                 else{
                     Console.WriteLine("You can't add maple topping to vanilla icecream, Please choose again!");
@@ -121,25 +182,17 @@ while(true){
                     break;
                     
                 case 16:
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(16);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(16,chooseNumberOfBalls, false);
                     break;
                 case 17:
                     break;    
                 default:
                     break;
             }
-            SqlServer.SqlServer.updateSaleSum();
-            // dont think it needed, maybe to add for loop according to the number of balls 
-            // and due to it update the flavours, plus we need to save specific number 
-            // because the topping.
-            // Console.WriteLine("Do you want extra balls? (1-yes, 2-no)");
-            // extraBalls = Int32.Parse(Console.ReadLine());
+            SqlServer.SqlServer.updateSaleSum(id);
             }
-
-
-
-        // need to add the flavours!
             break;
+            
         case 2: //speacial cone
             while(chooseNumberOfBalls > 3) 
             {
@@ -147,7 +200,7 @@ while(true){
             Console.WriteLine("Please choose again number of balls: ");
             chooseNumberOfBalls = Int32.Parse(Console.ReadLine());
             }
-            Business_Logic.Business_Logic.FillCustomerResevationTable(2);
+            Business_Logic.Business_Logic.FillCustomerResevationTable(2,chooseNumberOfBalls, true);
             for(int i = chooseNumberOfBalls ; i>0 ; i--){
             Console.WriteLine("Choose ypur Flavour :");
             Console.WriteLine("4 - Chocolate");
@@ -161,7 +214,9 @@ while(true){
             Console.WriteLine("12 - Cocunut");
             Console.WriteLine("13 - Gluten Free");
             chooseFlavor= Int32.Parse(Console.ReadLine());
-            Business_Logic.Business_Logic.FillCustomerResevationTable(chooseFlavor);
+            if(chooseNumberOfBalls == 1 ){}
+
+            else{ Business_Logic.Business_Logic.FillCustomerResevationTable(chooseFlavor,chooseNumberOfBalls, false);}
             Console.WriteLine("Which topping do you like to add?");
             Console.WriteLine("14 - Chocolate");
             Console.WriteLine("15 - Maple Syrup");
@@ -171,7 +226,7 @@ while(true){
             switch(chooseTopping){
                 case 14:
                 if(chooseFlavor != 4 && chooseFlavor != 11){
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(14);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(14,chooseNumberOfBalls, false);
                 }
                 else{
                     Console.WriteLine("You can't add chocolate topping to chocolate icecream, Please choose again!");
@@ -180,7 +235,7 @@ while(true){
                     break;
                 case 15:
                      if(chooseFlavor != 5){
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(15);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(15,chooseNumberOfBalls, false);
                 }
                 else{
                     Console.WriteLine("You can't add maple topping to vanilla icecream, Please choose again!");
@@ -189,27 +244,22 @@ while(true){
                     break;
                     
                 case 16:
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(16);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(16,chooseNumberOfBalls, false);
                     break;
                 case 17:
                     break;    
                 default:
                     break;
             }
-            //Business_Logic.Business_Logic.FillCustomerResevationTable(chooseFlavor);
-            SqlServer.SqlServer.updateSaleSum();
-            // dont think it needed, maybe to add for loop according to the number of balls 
-            // and due to it update the flavours, plus we need to save specific number 
-            // because the topping.
-            // Console.WriteLine("Do you want extra balls? (1-yes, 0-no)");
-            // extraBalls = Int32.Parse(Console.ReadLine());
+            
+            SqlServer.SqlServer.updateSaleSum(id);
+            
             }
             break;  
-            // need to add the flavours!
         case 3: //BOX 
              
              
-            Business_Logic.Business_Logic.FillCustomerResevationTable(3);
+            Business_Logic.Business_Logic.FillCustomerResevationTable(3,chooseNumberOfBalls, true);
              for(int i = chooseNumberOfBalls ; i>0 ; i--){
                
               Console.WriteLine("Choose ypur Flavour :");
@@ -224,7 +274,9 @@ while(true){
             Console.WriteLine("12 - Cocunut");
             Console.WriteLine("13 - Gluten Free");
             chooseFlavor= Int32.Parse(Console.ReadLine());
-            Business_Logic.Business_Logic.FillCustomerResevationTable(chooseFlavor);
+            if(chooseNumberOfBalls == 1 ){}
+
+            else{ Business_Logic.Business_Logic.FillCustomerResevationTable(chooseFlavor,chooseNumberOfBalls, false);}
             Console.WriteLine("Which topping do you like to add?");
             Console.WriteLine("14 - Chocolate");
             Console.WriteLine("15 - Maple Syrup");
@@ -234,7 +286,7 @@ while(true){
             switch(chooseTopping){
                 case 14:
                 if(chooseFlavor != 4 && chooseFlavor != 11){
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(14);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(14,chooseNumberOfBalls, false);
                 }
                 else{
                     Console.WriteLine("You can't add chocolate topping to chocolate icecream, Please choose again!");
@@ -243,7 +295,7 @@ while(true){
                     break;
                 case 15:
                      if(chooseFlavor != 5){
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(15);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(15,chooseNumberOfBalls, false);
                 }
                 else{
                     Console.WriteLine("You can't add maple topping to vanilla icecream, Please choose again!");
@@ -252,43 +304,43 @@ while(true){
                     break;
                     
                 case 16:
-                    Business_Logic.Business_Logic.FillCustomerResevationTable(16);
+                    Business_Logic.Business_Logic.FillCustomerResevationTable(16,chooseNumberOfBalls, false);
                     break;
                 case 17:
                     break;    
                 default:
                     break;
             }
-            SqlServer.SqlServer.updateSaleSum();
-             // dont think it needed, maybe to add for loop according to the number of balls 
-            // and due to it update the flavours, plus we need to save specific number 
-            // because the topping.
-            //  Console.WriteLine("Do you want extra balls? (1-yes, 0-no)");
-            //  extraBalls = Int32.Parse(Console.ReadLine());
+            
+            SqlServer.SqlServer.updateSaleSum(id);
+            Console.WriteLine("Have you finished your order? (0-no , 1-yes)");
+            newReser = Int32.Parse(Console.ReadLine());
              }
             break;
         default:
             break;
 
     }
-    Console.WriteLine("Have you finished your order? (1-yes, 0-no)");
-    newReser = Int32.Parse(Console.ReadLine());
+    
     switch(newReser){
+        
         case 1:
-            Console.WriteLine("Thank you for your order!");
-            break;
-        // if he doesnt want to pay, we update the prive in the sales table to 0    
+            Console.WriteLine("Thank you for your order!, Your id is: " + id);
+            break;   
         case 0:
             Console.WriteLine("Please choose again your order!");
             newReser= 1;
+            SqlServer.SqlServer.updateSaleSumToZero(id);
             break;
         default:
-            break;
+            continue;
     }
     
 } while (newReser != 1);
 
 }
 Console.WriteLine("Thank you for your time");
+
+
 
 

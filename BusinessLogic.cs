@@ -26,7 +26,7 @@ namespace Business_Logic{
             }
 
         }
-        public static void FillSalesTable()
+        public static int FillSalesTable()
         {
             
                 //Console.WriteLine("fill Sales Table");
@@ -34,6 +34,7 @@ namespace Business_Logic{
                 int o_price = 0;
                 Sales newSales = new Sales(o_date, o_price);
                 SqlServer.SqlServer.insertIntoTable(newSales);
+                return SqlServer.SqlServer.getMaxIdSales();
             
         }
 
@@ -41,19 +42,23 @@ namespace Business_Logic{
 
         // We need to take the max id sale in our sale table / or the saven one, and according to 
         // the ingredients table, we need to insert the right ingredients to the costumers table
-        public static void FillCustomerResevationTable(int id_Ingredient)
+        public static void FillCustomerResevationTable(int id_Ingredient,int Number_of_balls, bool flag)
         {
-                Random r = new Random();
-                //Console.WriteLine("fill Customers Table");
+                Console.WriteLine("fill Customers Table");
+                if(Number_of_balls == 1 && flag == true){
+                    int id_Sales = SqlServer.SqlServer.getMaxIdSales();
+                    int ingredient_price = 7;
+                    CostumerReservation newCostumerReservation = new CostumerReservation(id_Ingredient, id_Sales, ingredient_price);
+                    SqlServer.SqlServer.insertIntoTable(newCostumerReservation);
+                }
+                else{
                 int id_Sales= SqlServer.SqlServer.getMaxIdSales();
-                int id_Ingredient1= id_Ingredient;
                 int[] update_prices= {0,0,2,5,6,6,6,6,6,6,6,6,6,6,2,2,2};
-                int price = update_prices[id_Ingredient1];
-                CostumerReservation newCustomers = new CostumerReservation(id_Ingredient1, id_Sales, price);
-                string stam = newCustomers.ToString();
+                int price = update_prices[id_Ingredient];
+                CostumerReservation newCustomers = new CostumerReservation(id_Ingredient, id_Sales, price);
                 Console.WriteLine("---------------------------------------------------");
                 SqlServer.SqlServer.insertIntoTable(newCustomers);
-            
+                }
         }
 
     };

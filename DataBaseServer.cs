@@ -31,7 +31,6 @@ namespace SqlServer
                     "`id_Ingredient` INT NOT NULL AUTO_INCREMENT, " +
                     "`Product_name` VARCHAR(45) NULL," +
                     "`Product_price` INT NULL," +
-                    "`Number_of_balls` INT NULL," +
                     "PRIMARY KEY (`id_Ingredient`));";
 
                 cmd = new MySqlCommand(sql, conn);
@@ -44,6 +43,7 @@ namespace SqlServer
                     "`id_Sales` INT NOT NULL AUTO_INCREMENT, " +
                     "`OrderDate` VARCHAR(45) NOT NULL," +
                     "`Price` INT NULL," +
+                    "`Paid/Unpaid` INT NULL," +
                     "PRIMARY KEY (`id_Sales`));";
 
                 cmd = new MySqlCommand(sql, conn);
@@ -54,13 +54,8 @@ namespace SqlServer
                 // "`id_CostumerReservation` INT NOT NULL AUTO_INCREMENT, " +
                     "`id_Ingredient` INT NOT NULL, " +
                     "`id_Sales` INT NOT NULL, " +
-                    "`ingredient_price` INT NOT NULL);";
-                    // "PRIMARY KEY (`id_CostumerReservation`)," +     
-                    //  "FOREIGN KEY (id_Sales) REFERENCES Sales(id_Sales),"+
-                    //  "FOREIGN KEY (id_Ingredient) REFERENCES Ingredient(id_Ingredient));";
-                    // " CONSTRAINT `fk_Ingredient_id_Ingredient` FOREIGN KEY (`id_Ingredient`) REFERENCES `IceCreamShop`.`Ingredient` (`id_Ingredient`), " +
-                    // " CONSTRAINT `fk_Sales_id_Sales` FOREIGN KEY (`id_Sales`) REFERENCES `IceCreamShop`.`Sales` (`id_Sales`),"+
-                    //"PRIMARY KEY (`id_Ingredient`, `id_Sales`));";
+                    "`ingredient_price` INT NULL);";
+                 
 
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
@@ -108,15 +103,15 @@ namespace SqlServer
                 if (obj is Ingredients)
                 {
                     Ingredients newIngredients = (Ingredients)obj;
-                    sql = "INSERT INTO `IceCreamShop`.`Ingredient` (`Product_name`, `Product_price`, `Number_of_balls`)" + 
-                    "VALUES ('" + newIngredients.getProduct_name() + "', '" + newIngredients.getProduct_price() + "', '" + newIngredients.getNumber_of_balls() +"');";
+                    sql = "INSERT INTO `IceCreamShop`.`Ingredient` (`Product_name`, `Product_price`)" + 
+                    "VALUES ('" + newIngredients.getProduct_name() + "', '" + newIngredients.getProduct_price() + "');";
                     
                 }
                 if (obj is Sales)
                 {
                     Sales newSales = (Sales)obj;
-                    sql = "INSERT INTO `IceCreamShop`.`Sales` (`OrderDate`, `Price`)" +
-                    "VALUES ('" + newSales.getOrderDate() + "', '" + newSales.getPrice() + "');";
+                    sql = "INSERT INTO `IceCreamShop`.`Sales` (`OrderDate`, `Price`,`Paid/Unpaid`)" +
+                    "VALUES ('" + newSales.getOrderDate() + "', '" + newSales.getPrice() + "', '" + 0 + "');";
                 }
                 if (obj is CostumerReservation)
                 {
@@ -142,15 +137,24 @@ namespace SqlServer
             }
         }
 
-        public static void updateSaleSum(){
+        public static void updateSaleSum(int id){
             try
             {
                 MySqlConnection conn = new MySqlConnection(connStr);
                 Console.WriteLine("Connecting to MySQL...");
                 conn.Open();
-                string sql = "UPDATE `IceCreamShop`.`Sales` SET `Price` = (SELECT SUM(ingredient_price) FROM `IceCreamShop`.`CostumerReservation` WHERE id_Sales = Sales.id_Sales);";
+                string sql = "UPDATE `IceCreamShop`.`Sales` SET `Price` = (SELECT SUM(ingredient_price) FROM `IceCreamShop`.`CostumerReservation` WHERE id_Sales = Sales.id_Sales) WHERE id_Sales = @id;";
+                
+                //this one change all of the to 1- not good!
+                string sql2 = "UPDATE `IceCreamShop`.`Sales` SET `Paid/Unpaid` = 1 WHERE id_Sales = @id AND (`Paid/Unpaid` IS NULL OR `Paid/Unpaid` = 0 );";
+                
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id", id);
                 cmd.ExecuteNonQuery();
+
+                MySqlCommand cmd2 = new MySqlCommand(sql2, conn);
+                cmd2.Parameters.AddWithValue("@id", id);
+                cmd2.ExecuteNonQuery();
                 conn.Close();
             }
             catch (Exception ex)
@@ -160,5 +164,148 @@ namespace SqlServer
         }
 
 
+         public static void updateSaleSumToZero(int id){
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                string sql = "UPDATE `IceCreamShop`.`Sales` SET `Paid/Unpaid` = 0 WHERE @id = id_Sales;";
+                
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+        public static void CostumerReservation(int id){
+            // this function print the costumer reservation, in it there is only th price and the date
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                string sql = "SELECT Sales.OrderDate, Sales.Price FROM `IceCreamShop`.`Sales` WHERE id_Sales = @id;";
+                
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id", id);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Console.WriteLine("-----------------------");
+                    Console.WriteLine("Your order Date:" + rdr.GetDateTime(0));
+                    Console.WriteLine("Your order price:" + rdr.GetInt32(1));
+                    Console.WriteLine("-----------------------");
+                }
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+        }
+        public static void DayBills(){
+            // this function prints all the sales of the day, number of sales and the sum of the sales
+            // and average of the sales
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                string sql = "SELECT COUNT(id_Sales), SUM(Price) FROM `IceCreamShop`.`Sales` WHERE OrderDate = CURDATE();";
+                
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Console.WriteLine("-----------------------");
+                    Console.WriteLine("Number of sales:" + rdr.GetInt32(0));
+                    Console.WriteLine("Sum of sales:" + rdr.GetInt32(1));
+                    Console.WriteLine("Average of sales:" + rdr.GetInt32(1)/rdr.GetInt32(0));
+                    Console.WriteLine("-----------------------");
+                }
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public static void UncompleteSales(){
+            // this function prints all the sales that are not paid
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                string sql = "SELECT id_Sales, OrderDate, Price FROM `IceCreamShop`.`Sales` WHERE `Paid/Unpaid` = 0;";
+                
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Console.WriteLine("-----------------------");
+                    Console.WriteLine("id_Sales:" + rdr.GetInt32(0));
+                    Console.WriteLine("OrderDate:" + rdr.GetDateTime(1));
+                    Console.WriteLine("Price:" + rdr.GetInt32(2));
+                    Console.WriteLine("-----------------------");
+                }
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+
+        public static void MostCommomIngreadiantAndTopping(){
+            // this function prints the most common ingreadient and topping
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                
+                string sql = "SELECT Product_name FROM IceCreamShop.Ingredient INNER JOIN (SELECT id_ingredient, COUNT(id_ingredient) FROM `IceCreamShop`.`CostumerReservation` WHERE id_ingredient BETWEEN 4 AND 13 GROUP BY id_ingredient ORDER BY COUNT(id_ingredient) DESC LIMIT 1) AS T1 ON Ingredient.id_ingredient = T1.id_ingredient;";
+                
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Console.WriteLine("-----------------------");
+                    Console.WriteLine("Most common ingreadient:" + rdr.GetString(0));
+                    //Console.WriteLine("Number of times:" + rdr.GetInt32(1));
+                    Console.WriteLine("-----------------------");
+                }
+                rdr.Close();
+                sql = "SELECT Product_name FROM IceCreamShop.Ingredient INNER JOIN (SELECT id_ingredient, COUNT(id_ingredient) FROM `IceCreamShop`.`CostumerReservation` WHERE id_ingredient BETWEEN 14 AND 16 GROUP BY id_ingredient ORDER BY COUNT(id_ingredient) DESC LIMIT 1) AS T1 ON Ingredient.id_ingredient = T1.id_ingredient;";
+                
+                cmd = new MySqlCommand(sql, conn);
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Console.WriteLine("-----------------------");
+                    Console.WriteLine("Most common Topping:" + rdr.GetString(0));
+                   // Console.WriteLine("Number of times:" + rdr.GetInt32(1));
+                    Console.WriteLine("-----------------------");
+                }
+
+
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }   
     }
+
 }
