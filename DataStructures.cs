@@ -1,4 +1,6 @@
 using System.Collections;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Icecreamshop
 {
@@ -55,6 +57,20 @@ class CostumerReservation{
     public int getIngredient_price() { return ingredient_price; }
 
     string toString() { return id_Ingredient + " , " + id_Sales + " , " + ingredient_price; }
+
+}
+
+class CustomerReservetion_MongoDB{
+    Sales sale;
+    Ingredients ingredient;
+
+    public CustomerReservetion_MongoDB(Sales sale, Ingredients ingredient)
+    {
+        this.sale = sale;
+        this.ingredient = ingredient;
+    }
+    public Sales getSale() { return sale; }
+    public Ingredients getIngredient() { return ingredient; }
 
 }
 }

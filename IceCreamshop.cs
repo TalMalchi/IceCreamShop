@@ -42,12 +42,9 @@ while(true){
             CustomerFirstChoice = Int32.Parse(Console.ReadLine());    
             break;
         case 2:
-            //MongoDB.MongoDB.createTables(); //create new connection to SQL, an create empty tables
-            // Console.WriteLine("1 - Start new Reservation");
-            // Console.WriteLine("2 - Go Out From The Shop");
-            // Console.WriteLine("3 - Settings and Bills");
-            // CustomerFirstChoice = Int32.Parse(Console.ReadLine());    
-            // break;    
+            MongoDB.MongoDB.createDB(); //create new connection to SQL, an create empty tables
+            MongoDataBase();
+            break;    
         defualt:
             break;    
 
@@ -350,6 +347,34 @@ while(true){
 }
 Console.WriteLine("Thank you for your time");
 
+static void MongoDataBase(){
+    int FirstChoice=0;
+    Console.WriteLine("1 - Start new Reservation");
+    Console.WriteLine("2 - Go Out From The Shop");
+    Console.WriteLine("3 - Settings and Bills");
+    FirstChoice = Int32.Parse(Console.ReadLine());
+    switch(FirstChoice){
+        case 1:
+        MongoDB.MongoDB.FillIngredientTable();
+        MongoDB.MongoDB.FillSalesTable();
+        // id = Business_Logic.Business_Logic.FillSalesTable();
+        //     Console.WriteLine("How many balls would you like to eat? (choose number greater than 1 :)");
+        //     chooseNumberOfBalls = Int32.Parse(Console.ReadLine());
+        //     Console.WriteLine("How do you want to eat your icecream? :");
+        //     Console.WriteLine("1- Regular cone");
+        //     Console.WriteLine("2- Speacial cone");
+        //     Console.WriteLine("3- Box");      
+        //     ChooseCone = Int32.Parse(Console.ReadLine());
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        default:
+            break;
 
+    }
+
+}
 
 
