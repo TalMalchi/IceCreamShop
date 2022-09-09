@@ -19,7 +19,7 @@ int settingAndBills = 0;
 int bills = -1;
 
 
-//SqlServer.SqlServer.createTables(); //create new connection to SQL, an create empty tables
+SqlServer.SqlServer.createTables(); //create new connection to SQL, an create empty tables
 while(true){
 
 {
@@ -67,7 +67,10 @@ while(true){
             ChooseCone = Int32.Parse(Console.ReadLine());
             break;
         case 2:
-            break; // TODO: implement in other class  
+        Console.WriteLine("Thank you for visiting us, see you next time :)");
+        ChooseCone = 0;
+        newReser=-1;
+        break; // TODO: implement in other class  
 
         case 3:
                 // dont forget to update all the other fields
@@ -191,6 +194,9 @@ while(true){
             }
             SqlServer.SqlServer.updateSaleSum(id);
             }
+            Console.WriteLine("Have you finished your order? (0-no , 1-yes)");
+            newReser = Int32.Parse(Console.ReadLine());
+            
             break;
             
         case 2: //speacial cone
@@ -253,8 +259,10 @@ while(true){
             }
             
             SqlServer.SqlServer.updateSaleSum(id);
-            
             }
+            Console.WriteLine("Have you finished your order? (0-no , 1-yes)");
+            newReser = Int32.Parse(Console.ReadLine());
+            
             break;  
         case 3: //BOX 
              
@@ -313,9 +321,10 @@ while(true){
             }
             
             SqlServer.SqlServer.updateSaleSum(id);
+             }
             Console.WriteLine("Have you finished your order? (0-no , 1-yes)");
             newReser = Int32.Parse(Console.ReadLine());
-             }
+             
             break;
         default:
             break;
