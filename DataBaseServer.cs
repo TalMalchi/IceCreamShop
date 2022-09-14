@@ -5,7 +5,7 @@ namespace SqlServer
 
     class SqlServer
     {
-        static string connStr = "server=localhost;user=root;port=3306;password=malchital1";
+        static string connStr = "server=localhost;user=root;port=3306;password=root";
         public static void createTables()
         {
 
