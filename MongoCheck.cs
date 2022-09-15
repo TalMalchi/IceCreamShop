@@ -17,6 +17,8 @@ namespace MongoDataBase
     
         public static void newSale()
         {
+            int settingAndBills = 0;
+            int bills=0;
             int TotalPrice = 0;
             int chooseNumberOfBalls=0;
             int FirstChoice=0;
@@ -52,9 +54,33 @@ namespace MongoDataBase
                         ChooseCone = Int32.Parse(Console.ReadLine());
                     break;
                 case 2:
-                    
+                     Console.WriteLine("Thank you for visiting us, see you next time :)");
+                    // ChooseCone = 0;
+                    // newReser=-1;
                     break;
                 case 3:
+                while(bills != 2){
+                        Console.WriteLine("Welcome to Settings and Bills");
+                        Console.WriteLine("1 - Costumer Reservation");
+                        bills = Int32.Parse(Console.ReadLine());
+                        switch(bills)
+                {
+                    case 1:
+                        Console.WriteLine("Please enter you id sale you got in the end of your reservation: ");
+                        ObjectId id = new ObjectId(Console.ReadLine());
+                        db.getInformation("Sales",id);
+                        // ChooseCone = 0;
+                        // newReser=-1;
+                        break;
+
+                    case 2:
+                        Console.WriteLine("Thank you for visiting us, see you next time :)");
+                        bills = 2;
+                        break;
+                    default:
+                        break;     
+                }            
+                        }
                     break;
                 default:
                     break;
@@ -390,10 +416,9 @@ namespace MongoDataBase
                 }; 
             db.insertRecord("Sales", sale);
             Nowid = db.getLastRecord("Sales");
-            Console.WriteLine(Nowid);
-            //db.upsert("Sales", Nowid, "SreservationMongo.MyCone.coneType_price",3);
+            Console.WriteLine("Your order reservation Id id: " + Nowid);
+            db.getInformation("Sales", Nowid);
             
-            // ingredientsMongo.IngredientsMongo.fillIngredientsDocument();
             
             Stopwatch stopwatch = new Stopwatch();
     }
@@ -438,9 +463,18 @@ namespace MongoDataBase
             var update = Builders<T>.Update.Set(whatToUpdate, newValue);
             collection.UpdateOne(filter, update);
 
-
-
         }
+        //get information from specific id
+        public void getInformation(string table, ObjectId id)
+        {
+            var collection = db.GetCollection<BsonDocument>(table);
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+            var document = collection.Find(filter).First();
+            Console.WriteLine(document.ToJson());
+            
+        }
+        //most common ingredients 
+       
 
 
     }
