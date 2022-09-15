@@ -21,7 +21,7 @@ namespace MongoDBS{
     public class SalesMongo{
        [BsonId]
        public ObjectId Id {get; set;}
-       public string Date {get; set;}
+       public object Date {get; set;}
        public int Price {get; set;}
        public reservationMongo SreservationMongo {get; set;}
     }
