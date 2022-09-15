@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\97254\\Desktop\\icecreammmm\\IceCreamShop-main\\MySqlTest.csproj": {}
+    "C:\\Users\\Tal\\Desktop\\CS\\שנה ב\\סימסטר קיץ\\מסדי נתונים\\מטלות\\IceCreamShop\\MySqlTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\97254\\Desktop\\icecreammmm\\IceCreamShop-main\\MySqlTest.csproj": {
+    "C:\\Users\\Tal\\Desktop\\CS\\שנה ב\\סימסטר קיץ\\מסדי נתונים\\מטלות\\IceCreamShop\\MySqlTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\97254\\Desktop\\icecreammmm\\IceCreamShop-main\\MySqlTest.csproj",
+        "projectUniqueName": "C:\\Users\\Tal\\Desktop\\CS\\שנה ב\\סימסטר קיץ\\מסדי נתונים\\מטלות\\IceCreamShop\\MySqlTest.csproj",
         "projectName": "MySqlTest",
-        "projectPath": "C:\\Users\\97254\\Desktop\\icecreammmm\\IceCreamShop-main\\MySqlTest.csproj",
-        "packagesPath": "C:\\Users\\97254\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\97254\\Desktop\\icecreammmm\\IceCreamShop-main\\obj\\",
+        "projectPath": "C:\\Users\\Tal\\Desktop\\CS\\שנה ב\\סימסטר קיץ\\מסדי נתונים\\מטלות\\IceCreamShop\\MySqlTest.csproj",
+        "packagesPath": "C:\\Users\\Tal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tal\\Desktop\\CS\\שנה ב\\סימסטר קיץ\\מסדי נתונים\\מטלות\\IceCreamShop\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\97254\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Tal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,8 +55,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -65,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

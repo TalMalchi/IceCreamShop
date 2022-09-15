@@ -2,8 +2,13 @@ using System;
 using MongoDB.Driver;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+
+
+
 namespace MongoDBS{
-    public class coneTypeMongo{
+    public  class coneTypeMongo{
+
+       
         public int coneType_id {get; set;}
         public int coneType_price {get; set;}
         public string coneType_Type {get; set;}
@@ -29,8 +34,8 @@ namespace MongoDBS{
         
         public int numberOfBalls {get; set;}
         public coneTypeMongo MyCone{get; set;}
-        public toppingMongo topping {get; set;}
-        public flavorMongo flavor {get; set;}
+        public List<toppingMongo> topping {get; set;}
+        public List<flavorMongo> flavor {get; set;}
 
     }
 
