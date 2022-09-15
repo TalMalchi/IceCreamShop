@@ -17,6 +17,7 @@ namespace MongoDataBase
     
         public static void newSale()
         {
+            int TotalPrice = 0;
             int chooseNumberOfBalls=0;
             int FirstChoice=0;
             int ChooseCone=0;
@@ -26,10 +27,10 @@ namespace MongoDataBase
             int [] prices = {0,0,2,5,6,6,6,6,6,6,6,6,6,6,2,2,2,0};
             
             List<flavorMongo> flavorslist = new List<flavorMongo>();
-
+            List<toppingMongo> toppingslist = new List<toppingMongo>();
             coneTypeMongo ConeType = new coneTypeMongo();
-            toppingMongo toppingMongo= new toppingMongo();
-            flavorMongo flavorMongo= new flavorMongo();
+            // toppingMongo toppingMongo= new toppingMongo();
+            // flavorMongo flavorMongo= new flavorMongo();
             ObjectId Nowid = new ObjectId();
             
             MongoDemo db = new MongoDemo("IceCreamShop2");        
@@ -88,15 +89,24 @@ namespace MongoDataBase
                     Console.WriteLine("13 - Gluten Free");
                     chooseFlavor= Int32.Parse(Console.ReadLine());
                     if(chooseNumberOfBalls == 1 ){
-                        flavorMongo.flavor_id= chooseFlavor;
+                        flavorMongo flavorMongo= new flavorMongo();
+                            flavorMongo.flavor_id= chooseFlavor;
                             flavorMongo.flavor_price=7;
                             flavorMongo.flavor_Type= ingredients[chooseFlavor];
+                            flavorslist.Add(flavorMongo);
+                            TotalPrice+=7;
+                            
                     }
 
                     else{ 
+                        
+                            flavorMongo flavorMongo= new flavorMongo();                        
                             flavorMongo.flavor_id= chooseFlavor;
                             flavorMongo.flavor_price= prices[chooseFlavor];
                             flavorMongo.flavor_Type= ingredients[chooseFlavor];
+                            flavorslist.Add(flavorMongo);
+                            TotalPrice+=prices[chooseFlavor];
+                       
                             
 
 
@@ -110,9 +120,12 @@ namespace MongoDataBase
                     switch(chooseTopping){
                         case 14:
                         if(chooseFlavor != 4 && chooseFlavor != 11){
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= prices[chooseTopping];
-                            toppingMongo.topping_Type= ingredients[chooseTopping];
+                            toppingMongo toppingMongo1= new toppingMongo();
+                            toppingMongo1.topping_id= chooseTopping;
+                            toppingMongo1.topping_price= prices[chooseTopping];
+                            toppingMongo1.topping_Type= ingredients[chooseTopping];
+                            toppingslist.Add(toppingMongo1);
+                            TotalPrice+=prices[chooseTopping];
                         }
                         else{
                             Console.WriteLine("You can't add chocolate topping to chocolate icecream, Please choose again!");
@@ -121,9 +134,12 @@ namespace MongoDataBase
                             break;
                         case 15:
                             if(chooseFlavor != 5){
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= prices[chooseTopping];
-                            toppingMongo.topping_Type= ingredients[chooseTopping];
+                            toppingMongo toppingMongo1= new toppingMongo();    
+                            toppingMongo1.topping_id= chooseTopping;
+                            toppingMongo1.topping_price= prices[chooseTopping];
+                            toppingMongo1.topping_Type= ingredients[chooseTopping];
+                            toppingslist.Add(toppingMongo1);
+                            TotalPrice+=prices[chooseTopping];
                         }
                         else{
                             Console.WriteLine("You can't add maple topping to vanilla icecream, Please choose again!");
@@ -132,9 +148,12 @@ namespace MongoDataBase
                             break;
                             
                         case 16:
+                            toppingMongo toppingMongo= new toppingMongo();                            
                             toppingMongo.topping_id= chooseTopping;
                             toppingMongo.topping_price= prices[chooseTopping];
                             toppingMongo.topping_Type= ingredients[chooseTopping];
+                            toppingslist.Add(toppingMongo);
+                            TotalPrice+=prices[chooseTopping];
                             break;
                         case 17:
                             break;    
@@ -149,6 +168,7 @@ namespace MongoDataBase
                     ConeType.coneType_id=2;
                     ConeType.coneType_price=2;
                     ConeType.coneType_Type="Special Cone";
+                    TotalPrice+=2;
                     while(chooseNumberOfBalls > 3) 
                     {
                     Console.WriteLine("You can't choose more than 3 balls");
@@ -169,15 +189,21 @@ namespace MongoDataBase
                     Console.WriteLine("13 - Gluten Free");
                     chooseFlavor= Int32.Parse(Console.ReadLine());
                     if(chooseNumberOfBalls == 1 ){
-                        flavorMongo.flavor_id= chooseFlavor;
-                        flavorMongo.flavor_price= 7;
-                        flavorMongo.flavor_Type= ingredients[chooseFlavor];
+                        flavorMongo flavorMongo1 = new flavorMongo();
+                        flavorMongo1.flavor_id= chooseFlavor;
+                        flavorMongo1.flavor_price= 7;
+                        flavorMongo1.flavor_Type= ingredients[chooseFlavor];
+                        flavorslist.Add(flavorMongo1);
+                        TotalPrice+=7;
                     }
 
                     else{ 
-                            flavorMongo.flavor_id= chooseFlavor;
-                            flavorMongo.flavor_price= prices[chooseFlavor];
-                            flavorMongo.flavor_Type= ingredients[chooseFlavor];
+                             flavorMongo flavorMongo1 = new flavorMongo();
+                            flavorMongo1.flavor_id= chooseFlavor;
+                            flavorMongo1.flavor_price= prices[chooseFlavor];
+                            flavorMongo1.flavor_Type= ingredients[chooseFlavor];
+                            TotalPrice+=prices[chooseFlavor];
+                            flavorslist.Add(flavorMongo1);
                             
 
 
@@ -191,9 +217,12 @@ namespace MongoDataBase
                     switch(chooseTopping){
                         case 14:
                         if(chooseFlavor != 4 && chooseFlavor != 11){
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= prices[chooseTopping];
-                            toppingMongo.topping_Type= ingredients[chooseTopping];
+                            toppingMongo toppingMongo1= new toppingMongo();
+                            toppingMongo1.topping_id= chooseTopping;
+                            toppingMongo1.topping_price= prices[chooseTopping];
+                            toppingMongo1.topping_Type= ingredients[chooseTopping];
+                            toppingslist.Add(toppingMongo1);
+                            TotalPrice+=prices[chooseTopping];
                         }
                         else{
                             Console.WriteLine("You can't add chocolate topping to chocolate icecream, Please choose again!");
@@ -202,9 +231,12 @@ namespace MongoDataBase
                             break;
                         case 15:
                             if(chooseFlavor != 5){
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= prices[chooseTopping];
-                            toppingMongo.topping_Type= ingredients[chooseTopping];
+                            toppingMongo toppingMongo2= new toppingMongo();
+                            toppingMongo2.topping_id= chooseTopping;
+                            toppingMongo2.topping_price= prices[chooseTopping];
+                            toppingMongo2.topping_Type= ingredients[chooseTopping];
+                            toppingslist.Add(toppingMongo2);
+                            TotalPrice+=prices[chooseTopping];
                         }
                         else{
                             Console.WriteLine("You can't add maple topping to vanilla icecream, Please choose again!");
@@ -213,11 +245,19 @@ namespace MongoDataBase
                             break;
                             
                         case 16:
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= prices[chooseTopping];
-                            toppingMongo.topping_Type= ingredients[chooseTopping];
+                             toppingMongo toppingMongo3= new toppingMongo();
+                            toppingMongo3.topping_id= chooseTopping;
+                            toppingMongo3.topping_price= prices[chooseTopping];
+                            toppingMongo3.topping_Type= ingredients[chooseTopping];
+                            toppingslist.Add(toppingMongo3);
+                            TotalPrice+=prices[chooseTopping];
                             break;
                         case 17:
+                            toppingMongo toppingMongo= new toppingMongo();
+                            toppingMongo.topping_id= chooseTopping;
+                            toppingMongo.topping_price= 0;
+                            toppingMongo.topping_Type= "No"; 
+                            toppingslist.Add(toppingMongo);
                             break;    
                         default:
                             break;
@@ -232,6 +272,7 @@ namespace MongoDataBase
                     ConeType.coneType_id=3;
                     ConeType.coneType_price=3;
                     ConeType.coneType_Type="Box";
+                    TotalPrice+=3;
                     while(chooseNumberOfBalls > 3) 
                     {
                     Console.WriteLine("You can't choose more than 3 balls");
@@ -252,24 +293,22 @@ namespace MongoDataBase
                     Console.WriteLine("13 - Gluten Free");
                     chooseFlavor= Int32.Parse(Console.ReadLine());
                     if(chooseNumberOfBalls == 1 ){
-                        flavorMongo.flavor_id= chooseFlavor;
-                        flavorMongo.flavor_price= 7;
-                        flavorMongo.flavor_Type= ingredients[chooseFlavor];
+                        flavorMongo flavorMongo1 = new flavorMongo();
+                        flavorMongo1.flavor_id= chooseFlavor;
+                        flavorMongo1.flavor_price= 7;
+                        flavorMongo1.flavor_Type= ingredients[chooseFlavor];
+                        flavorslist.Add(flavorMongo1);
+                        TotalPrice+=7;
                     }
 
                     else{ 
-                        for(int j = chooseNumberOfBalls ; j>0 ; j--){
+                        
                         flavorMongo f1 = new flavorMongo();
                         f1.flavor_id= chooseFlavor;
                         f1.flavor_price= prices[chooseFlavor];
                         f1.flavor_Type= ingredients[chooseFlavor];
                         flavorslist.Add(f1);
-
-                        
-                        }
-                            
-                            
-
+                        TotalPrice+=prices[chooseFlavor];
 
                     }
                     Console.WriteLine("Which topping do you like to add?");
@@ -281,9 +320,13 @@ namespace MongoDataBase
                     switch(chooseTopping){
                         case 14:
                         if(chooseFlavor != 4 && chooseFlavor != 11){
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= 2;
-                            toppingMongo.topping_Type= "Chocolate";
+                            toppingMongo toppingMongo1= new toppingMongo();
+                            toppingMongo1.topping_id= chooseTopping;
+                            toppingMongo1.topping_price= 2;
+                            toppingMongo1.topping_Type= "Chocolate";
+                            toppingslist.Add(toppingMongo1);
+                            TotalPrice+=2;
+
                         }
                         else{
                             Console.WriteLine("You can't add chocolate topping to chocolate icecream, Please choose again!");
@@ -292,9 +335,12 @@ namespace MongoDataBase
                             break;
                         case 15:
                             if(chooseFlavor != 5){
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= 2;
-                            toppingMongo.topping_Type= "Maple Syrup";
+                                toppingMongo toppingMongo1= new toppingMongo();
+                            toppingMongo1.topping_id= chooseTopping;
+                            toppingMongo1.topping_price= 2;
+                            toppingMongo1.topping_Type= "Maple Syrup";
+                            toppingslist.Add(toppingMongo1);
+                            TotalPrice+=2;
                         }
                         else{
                             Console.WriteLine("You can't add maple topping to vanilla icecream, Please choose again!");
@@ -303,21 +349,24 @@ namespace MongoDataBase
                             break;
                             
                         case 16:
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= 2;
-                            toppingMongo.topping_Type= "Peanuts";
+                            toppingMongo toppingMongo2= new toppingMongo();
+                            toppingMongo2.topping_id= chooseTopping;
+                            toppingMongo2.topping_price= 2;
+                            toppingMongo2.topping_Type= "Peanuts";
+                            toppingslist.Add(toppingMongo2);
+                            TotalPrice+=2;
                             break;
                         case 17:
-                            toppingMongo.topping_id= chooseTopping;
-                            toppingMongo.topping_price= 0;
-                            toppingMongo.topping_Type= "No"; 
+                            toppingMongo toppingMongo3= new toppingMongo();
+                            toppingMongo3.topping_id= chooseTopping;
+                            toppingMongo3.topping_price= 0;
+                            toppingMongo3.topping_Type= "No"; 
+                            toppingslist.Add(toppingMongo3);
                             break;   
                         default:
                             break;
                     }
                             }
-                    
-
                     
                     break;
                 default:
@@ -330,12 +379,11 @@ namespace MongoDataBase
             //db.insertRecord("Sales", new SalesMongo { Date = DateTime.Now.ToString(), Price = 0});
             SalesMongo sale = new SalesMongo{
                 Date = DateTime.Now.ToString(),
-                Price = 2,
+                Price = TotalPrice,
                 SreservationMongo = new reservationMongo{
                 numberOfBalls = chooseNumberOfBalls,
-                
                 MyCone = ConeType,
-                topping = toppingMongo,
+                topping = toppingslist,
                 flavor = flavorslist
             
             }
